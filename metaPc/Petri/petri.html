@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Room PC Petrisagge </title>
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+    <script src="petri.js"></script>
+    <script src="https://unpkg.com/aframe-troika-text/dist/aframe-troika-text.min.js"></script>
+
+
+  </head>
+
+  <body>
+    <a-scene>
+      <a-assets>
+        <a-asset-item id="asset-room" src="../../models/room09.glb"></a-asset-item> 
+      </a-assets>
+
+      <a-entity gltf-model="#asset-room" position="0 -1.5 -2.5" scale="1 1 1"></a-entity>
+
+
+      <a-sky color="#1C607A"></a-sky> 
+      <a-entity light="type: ambient; intensity: 0.7"></a-entity>
+      <a-entity light="type: directional; intensity: 1" position="-1 2 1"></a-entity>
+
+      <a-entity > 
+        <a-entity camera look-controls wasd-controls="acceleration:5" position="2.7 1 -0.2" >
+
+          <a-entity cursor="rayOrigin: mouse"
+                          raycaster="objects: .raycastable">
+                </a-entity>
+  
+            <a-entity id="brazo-virtual"
+                      raycaster="objects: .massage-zone; showLine: true; far: 5"
+                      pc-controls
+                      sequence-physics
+                      position="0  0.1 -1"
+                      >
+                <a-sphere radius="0.04" color="red" opacity="0.9"></a-sphere>
+            </a-entity>
+            <a-entity id="brazo-virtual-2"
+                      position="0  0 -1">
+                      <a-sphere radius="0.04" color="blue" opacity="0.9"></a-sphere>
+
+            </a-entity>
+
+        </a-camera>
+      </a-entity>
+
+                
+              <a-torus class="massage-zone" data-step="1" position="2.65 0.1 -0.29" rotation="90 -90 0" scale ="0.2 0.2 0.2" radius="0.3" radius-tubular="0.05" arc="180" material="color: purple; opacity: 0.5">
+              </a-torus>
+
+               <a-torus class="massage-zone" data-step="2" position="2.8 0.1 -0.27" rotation="90 90 0" scale ="0.22 0.2 0.2" radius="0.3" radius-tubular="0.05" arc="180" material="color: purple; opacity: 0.5">
+              </a-torus>
+
+              <a-box class="massage-zone" data-step="3" position="2.789 0.2 -0.27" rotation="0 0 0" scale="0.01 0.01 0.5" material="transparent:true; opacity: 0.3"></a-box>
+
+
+
+              <a-entity id="infoPanel1" position="2.7 -0.2 -2" rotation="-90 360 0">
+                              <a-plane id="main-panel" width="1.5" height=".2" color="#1a1a1a" opacity="0.9">s
+                              <a-text id="pressure-panel" 
+                                          position="0 0 0.01" 
+                                          align="center"
+                                          width="1.5"
+                                          value="Con el scroll del mouse ajusta la presion">
+                              </a-text>
+              </a-entity>
+
+
+<a-entity id="infoPanel2" position="2.7 -0.2 -1.4" rotation="-90 360 0">
+    <a-plane width="1.5" height="1" color="#1a1a1a" opacity="0.9"></a-plane>    
+    <a-text value="Tecnica Petrisagge" color="#5BEEF7" align="center" position="0 0.35 0.01" width="2.5"></a-text>       
+    <a-text id="instrucciones-guia" 
+            value="Wringing\n
+                  PASO 1:Inicia en la zona de Gastronemios (en la parte media del arco purpura)\n
+                  PASO 2:Desliza las esferas con ayuda del mouse arrriba-abajo en la zona indicada\n
+                  Realiza 10 repeticiones para concluir con el masaje" 
+            color="white" 
+            align="center" 
+            position="0 -0.1 0.01"
+            width="1"
+            wrap-count="40">
+    </a-text>
+</a-entity>
+
+<a-entity id="infoPanel3" position="4 -0.2 -1.4" rotation="-90 -360 0">
+                <a-plane id="main-panel" width="1" height=".2" color="#1a1a1a" opacity="1">
+                <a-text id="count-panel" 
+                            position="0 0 0.01" 
+                            align="center"
+                            width="2"
+                            value="Iniciando repeticiones...">
+                </a-text>
+            </a-entity>
+
+
+            <a-entity id="infoPanel4" teoria-carrusel >
+                <a-plane width="1.5" height="1" color="#1a1a1a" opacity="0.5" rotation="0 0 0" position="5 2 -4" scale="2 2 3"></a-plane>    
+                
+                <a-entity id="titulo"
+                            troika-text="value:Teoría Técnica Petrisagge ;
+                            color: cyan;
+                            align: center;
+                            maxWidth: 2.5;
+                            fontSize: 0.15;
+                            anchor: center;
+                            baseline: middle"
+                            position="5 2.8 -4"
+                            rotation="0 0 0">
+
+                </a-entity>
+                
+                <a-entity id="teoria"
+                            troika-text=
+                            "color: white;
+                            align: justify;
+                            maxWidth: 2.5;
+                            fontSize: 0.1;
+                            anchor: center;
+                            baseline: middle"
+                            position="5 2.2 -4"
+                            rotation="0 0 0">
+                            
+                </a-entity>
+
+                <a-entity id="flecha-izq" 
+                    class="raycastable"
+                    geometry="primitive: triangle; "
+                    material="color: #5BEEF7; side: double"
+                    position="4.4 1.2 -3.85"
+                    rotation="180 0 90"
+                    scale="0.1 0.1 0.1">
+                </a-entity>
+
+
+                <a-entity id="flecha-der" 
+                    class="raycastable"
+                    geometry="primitive: triangle;"
+                    material="color: #5BEEF7; side: double"
+                    position="5.6 1.2 -3.85"
+                    rotation="180 0 -90"
+                    scale="0.1 0.1 0.1">
+                </a-entity>
+
+                <a-entity id="pagina-indicador"
+                    troika-text="value: 1 / 5;
+                                color: #5BEEF7;
+                                fontSize: 0.1;
+                                anchorX: center;
+                                anchorY: middle"
+                    position="5 1.2 -4">
+                </a-entity>
+        </a-entity>
+
+      
+      
+
+      <a-plane id="botonSalir3D" 
+         position="-2.2 1.5 0" rotation="-10 90 0"
+         width="0.5" height="0.2" 
+         color="#1a1a1a" 
+         class="raycastable"
+         enlace-menu>
+          <a-text value="Salir" align="center" width="2" color="#5BEEF7"></a-text>
+      </a-plane>
+
+    </a-scene>
+  </body>
+</html>

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Room mobile Effleurage</title>
+        <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.2.0/dist/aframe-extras.min.js"></script>
+        <script src="e.js"></script>
+        <style>
+                canvas.a-canvas{
+                    touch-action: none;
+                }
+                a-scene, .a-canvas {
+                    background-color: transparent !important;
+                }
+                .btn-info{
+                    position: fixed !important;
+                    bottom: 20px;
+                    right: 150px; /* Se posiciona justo a la izquierda del botón AR */
+                    z-index: 99999 !important;
+                    height: 34px;
+                    padding: 0 12px;
+                    background: rgba(0, 0, 0, 0.35);
+                    color: #FFFFFF;
+                    border: 2px solid #FFFFFF;
+                    border-radius: 8px;
+                    font-family: sans-serif, sans-serif-condensed;
+                    font-size: 13px;
+                    font-weight: bold;
+                    letter-spacing: 1px;
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    box-sizing: border-box;
+                    outline: none;
+                    -webkit-tap-highlight-color: transparent;
+                    transition: background-color 0.2s ease;
+                }
+
+                .btn-info:active {
+                    background-color: rgba(255, 255, 255, 0.3);
+                }
+
+                /* Modal / Ventana flotante de Teoría */
+                .modal-overlay {
+                    position: fixed !important;
+                    top: 0;
+                    left: 0;
+                    width: 100vw;
+                    height: 100vh;
+                    background-color: rgba(0, 0, 0, 0.8);
+                    z-index: 100000 !important;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    opacity: 0;
+                    pointer-events: none;
+                    transition: opacity 0.3s ease;
+                }
+
+                .modal-overlay.active {
+                    opacity: 1;
+                    pointer-events: auto;
+                }
+
+                .modal-content {
+                    background-color: #1a1a1a;
+                    color: #ffffff;
+                    width: 85%;
+                    max-width: 400px;
+                    max-height: 80vh;
+                    border: 2px solid #5BEEF7;
+                    border-radius: 12px;
+                    padding: 20px;
+                    box-shadow: 0 5px 15px rgba(0,0,0,0.8);
+                    overflow-y: auto;
+                    font-family: sans-serif;
+                }
+
+                .modal-content h2 {
+                    color: #5BEEF7;
+                    margin-top: 0;
+                    font-size: 1.2rem;
+                    text-align: center;
+                    border-bottom: 1px solid #333;
+                    padding-bottom: 8px;
+                }
+
+                .modal-content p, .modal-content ul {
+                    font-size: 0.9rem;
+                    line-height: 1.4;
+                    color: #dddddd;
+                }
+
+                .close-btn {
+                    display: block;
+                    width: 100%;
+                    margin-top: 15px;
+                    padding: 10px 0;
+                    background-color: #5BEEF7;
+                    color: #1a1a1a;
+                    border: none;
+                    border-radius: 6px;
+                    font-weight: bold;
+                    font-size: 0.95rem;
+                    text-align: center;
+                    cursor: pointer;
+                }
+
+        </style>
+    </head>
+
+    
+    <body>
+        <button id="btn-teoria" class="btn-info" aria-label="Información">INFO</button>
+
+        <div id="modal-teoria" class="modal-overlay">
+            <div class="modal-content">
+                <h2>Teoría Técnica Effleurage</h2>
+                <p>Consiste en el deslizamiento de las manos del fisioterapeuta sobre la piel del paciente de forma rítmica y sin interrupción. En función de la presión que se ejerza, el roce puede ser superficial o profundo.</p>
+                <p>En el roce superficial, se ejerce una presión suave y tangencial, con un ángulo de incidencia mano-piel de 15°, limitando la acción a la piel y el tejido celular subcutáneo principalmente. Es una maniobra confortable que facilita la toma de contacto al inicio de la aplicación del masaje, y es bien aceptada por los pacientes ya que produce un aumento del calor local y un aumento progresivo del umbral de tolerancia a la presión.</p>
+                <p>La maniobra es adireccional, con un ritmo constante, y con su aplicación se prepara la zona diana para recibir maniobras de mayor intensidad. Se caracteriza por tener como principal efecto la analgesia, ya que insensibiliza poco a poco la superficie de la piel.</p>
+                <p>En el roce profundo la presión perpendicular que se ejerce es mayor y se aumenta el ángulo de ataque (hasta 35-40º), actuando también en estructuras más profundas como músculos, tendones, fascias, vasos y planos cápsuloligamentosos. En este casola presión se ejerce con una dirección centrípeta, siguiendo la circulación de retornom venoso. En el caso de ser aplicada en las extremidades, se suele colocar además el segmento en posición de declive para favorecer dicho retorno vascular.</p>
+                <p><strong>Fuentes bibliográficas utilizadas en esta sección:</strong></p>
+                <p>Fernández Álvarez, M. d. M., Martín Payo, R., y Cachero Rodríguez, J. (2024). Masoterapia: Manual de técnicas y maniobras. Universidad de Oviedo.</p>
+
+                <button id="btn-cerrar" class="close-btn">Entendido</button>
+            </div>
+        </div>
+
+        <a-scene  obb-collider="showColliders: false"
+                    webxr="optionalFeatures: hit-test, local-floor; referenceSpaceType: local;"
+                    xr-mode-ui="XRMode: ar">
+            <a-assets>
+                <a-asset-item id="asset-room" src="../../models/room09.glb"></a-asset-item>   
+            </a-assets>
+
+            <a-entity gltf-model="#asset-room" position="0 -1.5 -2.5" scale="1 1 1"></a-entity>
+
+            <a-entity light="type: ambient; intensity: 0.7"></a-entity>
+            <a-entity light="type: directional; intensity: 1" position="-1 2 1"></a-entity>
+
+            <a-entity id="rig" position="1.5 0 -0.2" rotation="0 90 0">
+                <a-entity camera look-controls="magicWindowTrackingEnabled: true; touchEnabled: false" position="0 1.4 0">
+                    
+                    <a-cursor 
+                        id="cursor-movil"
+                        raycaster="objects: .raycastable" 
+                        cursor="rayOrigin: mouse; fuse: false">
+                    </a-cursor>
+
+                    <a-entity id="touch-handler"
+                            touch-to-raycaster
+                            sequence-handler>
+                    </a-entity>
+                </a-entity>
+            </a-entity>
+
+
+        
+
+            <a-entity id="infoPanel2" >
+                <a-plane width="1.5" height="1" color="#1a1a1a" opacity="0.5" rotation="-90 90 0" position="0 -0.5 -1.4"></a-plane>    
+                <a-text value="TECNICA EFFLEURAGE" color="#5BEEF7" align="center" position="-0.4 -0.5 -1.4" width="2.5" rotation="-90 90 0"></a-text>    
+                <a-text id="instrucciones-guia" 
+                        value="PASO 1:\nInicia en la zona LUMBAR\n(Color Magenta)" 
+                        color="white" 
+                        align="center" 
+                        position="0 -0.5 -1.4"
+                        rotation="-90 90 0"
+                        width="1"
+                        wrap-count="20"> 
+                </a-text>
+            </a-entity>
+
+            <a-box class="massage-zone" obb-collider data-step="1" position="1.69 0 -0.46" rotation="0 0 0" scale="0.2 0.1 0.2" material="color: magenta; opacity: 0.3"></a-box>
+            <a-box class="massage-zone" obb-collider data-step="2" position="1.45 0.1 -0.45" rotation="0 0 -20" scale="0.35 0.1 0.3" material="color: orange; opacity: 0.3"></a-box>
+            <a-box class="massage-zone" obb-collider data-step="3" position="1.2 0.1 -0.45" rotation="0 0 -50" scale="0.1 0.1 0.5" material="color: blue; opacity: 0.3"></a-box>
+            <a-box class="massage-zone" obb-collider data-step="4" position="1.55 0.1 -0.2" rotation="0 -7 -7" scale="0.7 0.1 0.1" material="color: cyan; opacity: 0.3"></a-box>
+            <a-box class="massage-zone" obb-collider data-step="4-2" position="1.55 0.1 -0.75" rotation="0 7 -7" scale="0.7 0.1 0.1" material="color: cyan; opacity: 0.3"></a-box>
+
+
+            <a-plane id="botonSalir3D" 
+                position="-2.2 1.5 0" rotation="-10 90 0"
+                width="0.5" height="0.2" 
+                color="#1a1a1a" 
+                class="raycastable"
+                enlace-menu>
+                <a-text value="Salir" align="center" width="2" color="#5BEEF7"></a-text>
+            </a-plane>
+            
+            <a-entity oculus-touch-controls="hand: left" boton-escape-hibrido ></a-entity>
+            <a-entity oculus-touch-controls="hand: right">
+
+            <a-plane id="botonSalir3D" 
+                    position="-2.2 1.5 0" rotation="-10 90 0"
+                    width="0.5" height="0.2" 
+                    color="#1a1a1a" 
+                    class="raycastable"
+                    enlace-menu>
+                    <a-text value="Salir" align="center" width="2" color="#5BEEF7"></a-text>
+            </a-plane>
+        
+        </a-scene>
+    </body>
+</html>

@@ -1,0 +1,43 @@
+{
+    "name": "PhisiXtheraphy",
+    "short_name": "PhisiXy",
+    "description": "PhisiXtheraphy para estudiantes",
+    "start_url": "/index.html",
+    "display": "standalone",
+    "background_color": "#20232E",
+    "theme_color": "#080E24",
+    "icons": [
+        {
+            "src": "icn/icon01.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+
+        {
+            "src": "icn/icon02.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ],
+    "screenshots": [
+    {
+     "src": "screenshots/ss1.png",
+      "sizes": "1920x1080",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Wonder Widgets"
+    },
+    {
+     "src": "screenshots/ss2.png",
+      "sizes": "1920x1080",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Wonder Widgets"
+    }
+    
+],
+"lang": "es-MX",
+"orientation": "natural"
+
+
+}

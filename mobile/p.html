@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Masaje Petrisagge - Mobile</title>
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+    <script src="p.js"></script>
+    <style>
+        canvas.a-canvas { touch-action: none; }
+
+        .btn-info{
+            position: fixed !important;
+            bottom: 20px;        
+            right: 150px; /* Se posiciona justo a la izquierda del botón AR */
+            z-index: 99999 !important;
+            height: 34px;
+            padding: 0 12px;        
+            background: rgba(0, 0, 0, 0.35);
+            color: #FFFFFF;
+            border: 2px solid #FFFFFF;
+            border-radius: 8px;
+            font-family: sans-serif, sans-serif-condensed;
+            font-size: 13px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+            outline: none;
+            -webkit-tap-highlight-color: transparent;
+            transition: background-color 0.2s ease;        
+        }
+
+        .btn-info:active {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .modal-overlay {
+            position: fixed !important;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 100000 !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-content {
+            background-color: #1a1a1a;
+            color: #ffffff;
+            width: 85%;
+            max-width: 400px;
+            max-height: 80vh;
+            border: 2px solid #5BEEF7;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.8);
+            overflow-y: auto;
+            font-family: sans-serif;
+        }
+
+        .modal-content h2 {
+            color: #5BEEF7;
+            margin-top: 0;
+            font-size: 1.2rem;
+            text-align: center;
+            border-bottom: 1px solid #333;
+            padding-bottom: 8px;
+        }
+
+        .modal-content p, .modal-content ul {
+            font-size: 0.9rem;
+            line-height: 1.4;
+            color: #dddddd;
+        }
+
+        .close-btn {
+            display: block;
+            width: 100%;
+            margin-top: 15px;
+            padding: 10px 0;
+            background-color: #5BEEF7;
+            color: #1a1a1a;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 0.95rem;
+            text-align: center;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <button id="btn-teoria" class="btn-info" aria-label="Información">INFO</button>
+
+        <div id="modal-teoria" class="modal-overlay">
+            <div class="modal-content">
+                <h2>Teoría Técnica Petrisagge</h2>
+                <p>En esta maniobra se toma un pliegue de tejido para imprimirle un movimiento de compresión, torsión y empuje.\nEs una de las maniobras más utilizadas en el masaje. También se le conoce como pretissage.</p>
+                <p>Se puede definir como una movilización alternada, de dos segmentos de la misma superficie cutánea o muscular, arrastrados por la adherencia de la mano del fisioterapeuta, y orientada de tal manera que los empujes ejercicos sobre los dos segmentos se equilibran mutuamente.</p>
+                <p>Se describe como amasamiento superficial cuando la maniobra imprime un movimiento a la piel y el tejido celular subcutáneo, o amasamiento profundo cuando alcanza y se moviliza tejido muscular y aponeurótico.</p>
+                <p>En el amasamiento superficial la toma se realiza con las yemas de los dedos. En este tipo seincluyen maniobras de pinza rodada, muy utilizadas en el tratamiento de retracciones cutáneas y cicatrices adheridas.</p>
+                <p>Los efectos de amasamiento profundo varían según el ritmo: ejecutada a ritmo lento (15-25 maniobras/minuto), posee un efecto calmante, sedante y descontracturante (normalización del tono muscular); a ritmo rápido (30-40 maniobras/minuto) produce una estimulación circulatoria y propioceptiva.</p>
+                <p>Su aplicación requiere que existe un cierto grado de acortamiento mecánico del tejido muscular sobre el que se va a incidir, con el objetivo de realizar la compresión, torsión y estiramiento correctamente.</p>
+                <p><strong>Fuentes bibliográficas utilizadas en esta sección:</strong></p>
+                <p>Fernández Álvarez, M. d. M., Martín Payo, R., y Cachero Rodríguez, J. (2024). Masoterapia: Manual de técnicas y maniobras. Universidad de Oviedo.</p>
+
+                <button id="btn-cerrar" class="close-btn">Entendido</button>
+            </div>
+        </div>
+
+    <a-scene>
+        <a-assets>
+            <a-asset-item id="asset-room" src="../../models/room09.glb"></a-asset-item>
+        </a-assets>
+
+        <a-entity gltf-model="#asset-room" position="0 -1.5 -2.5"></a-entity>
+        <a-sky color="#1C607A"></a-sky>
+
+        <a-entity id="rig" position="2.7 0.2 -0.1" rotation="0 90 0">
+            <a-entity camera look-controls="touchEnabled: false" position="0 1.2 0">
+                <a-cursor raycaster="objects: .raycastable" cursor="rayOrigin: mouse; fuse: false"></a-cursor>
+
+                <a-entity id="logic-handler" multi-touch-petri sequence-physics></a-entity>
+            </a-entity>
+        </a-entity>
+
+        <a-entity id="infoPanel2" position="1.5 -0.5 1" rotation="-90 90 0">
+            <a-plane width="2" height="1.5" color="#1a1a1a" opacity="0.9"></a-plane>
+            <a-text value="Tecnica Petrissage(Wringing)" color="#5BEEF7" align="center" position="0 0.5 0.05"width="2.5"></a-text>
+            <a-text id="instrucciones-guia" 
+                    value="
+                  PASO 1:Inicia en la zona de Gastronemios deslizando los dedos (en la parte media del arco purpura)\n
+                  Realiza 10 repeticiones para concluir con el masaje" 
+                    color="#FFFFFF" align="center" width="2" position="0 0 0.05">
+            </a-text>
+        </a-entity>
+
+        <a-entity id="infoPanel3" position="0 -0.5 0" rotation="-90 90 0">
+                <a-plane id="main-panel" width="1" height=".2" color="#1a1a1a" opacity="1">
+                <a-text id="count-panel" 
+                            position="0 0 0.01" 
+                            align="center"
+                            width="2"
+                            value="Iniciando repeticiones">
+                </a-text>
+      </a-entity>
+
+        <a-torus class="massage-zone" data-step="1" position="2.65 0.1 -0.29" rotation="90 -90 0" scale ="0.2 0.2 0.2" radius="0.3" radius-tubular="0.05" arc="180" material="color: purple; opacity: 0.5"></a-torus>
+
+        <a-torus class="massage-zone" data-step="2" position="2.8 0.1 -0.27" rotation="90 90 0" scale ="0.22 0.2 0.2" radius="0.3" radius-tubular="0.05" arc="180" material="color: purple; opacity: 0.5"></a-torus>
+
+        <a-box class="massage-zone" data-step="3" position="2.789 0.2 -0.27" rotation="0 0 0" scale="0.01 0.01 0.5" material="transparent:true; opacity: 0.3"></a-box>
+
+
+        
+        
+        <a-plane id="botonSalir3D" 
+                position="-2.2 1.5 0" rotation="-10 90 0"
+                width="0.5" height="0.2" 
+                color="#1a1a1a" 
+                class="raycastable"
+                enlace-menu>
+                <a-text value="Salir" align="center" width="2" color="#5BEEF7"></a-text>
+        </a-plane>
+    </a-scene>
+</body>
+</html>

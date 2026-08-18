@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>PhisiXtheraphy - Menú VR</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-environment-component@1.5.x/dist/aframe-environment-component.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v7.2.0/dist/aframe-extras.min.js"></script>
+    <link rel="manifest" href="manifest.json" />
+</head>
+
+<body>
+
+    <a-scene background="color: #212"
+        environment="preset: starry; skyColor: #111; groundColor: #444; horizonColor: #222; fog: 0.5;"
+        loading-screen="enable: false"
+        renderer="antialias: true; colorManagement: true;" 
+        device-orientation-permission-ui="enabled: true">
+
+        <a-assets>
+            <img id="backPoster" src="../images/back.png" crossorigin="anonymous" />
+            <img id="effleuragePoster" src="../images/effleurage.png" crossorigin="anonymous" />
+            <img id="frictionPoster" src="../images/friction.jpg" crossorigin="anonymous" />
+            <img id="tapotementPoster" src="../images/tapotement.jpg" crossorigin="anonymous" />
+            <img id="petrissagePoster" src="../images/petrissage.jpg" crossorigin="anonymous" />
+
+
+            <a-mixin id="frame" geometry="primitive: plane; width: 0.57; height: 0.81"
+                material="color: #17405E; shader: flat"
+                animation__scale="property: scale; to: 1.1 1.1 1.1; dur: 200; startEvents: mouseenter"
+                animation__scale_reverse="property: scale; to: 1 1 1; dur: 200; startEvents: mouseleave">
+            </a-mixin>
+
+            <a-mixin id="poster" geometry="primitive: plane; width: 0.55; height: 0.79"
+                material="color: white; shader: flat" position="0 0 0.01">
+            </a-mixin>
+
+            <a-mixin id="frame-wide" geometry="primitive: plane; width: 0.8; height: 0.1" material="transparent: true;"
+            animation__scale="property: scale; to: 1.1 1.1 1.1; dur: 200; startEvents: mouseenter"
+            animation__scale_reverse="property: scale; to: 1 1 1; dur: 200; startEvents: mouseleave"
+            ></a-mixin>        
+        
+        
+        </a-assets>
+
+        <a-entity id="rig">
+            <a-entity camera look-controls position="0 1.6 0" wasd-controls="enabled: false">
+                <a-entity cursor="rayOrigin: mouse"raycaster="objects: .raycastable">
+                </a-entity>
+            </a-entity>
+
+            <a-entity id="leftHand" 
+                laser-controls="hand: left" 
+                raycaster="objects: .raycastable" 
+                hand-tracking-grab-controls="hand: left;" 
+                hand-controls="hand: left; handModelStyle: lowPoly; color: #ffcccc">
+            </a-entity>
+
+            <a-entity id="rightHand" 
+                laser-controls="hand: right" 
+                raycaster="objects: .raycastable" 
+                line="color: #118A7E" 
+                hand-tracking-grab-controls="hand: right;"
+                hand-controls="hand: right; handModelStyle: lowPoly; color: #ffcccc"
+                ></a-entity>
+        </a-entity>
+
+        <a-entity id="infoPanel" position="0 3.5 -4" rotation="0 0 0">
+            <a-plane width="5" height="1.8" color="#17405E" opacity="0.8" shader="flat"></a-plane>
+            <a-entity text="value: Tecnicas de Masaje Clasico; color: #5BEEF7; align: center; width: 5; wrapCount: 25"
+                position="0 0.5 0.01"></a-entity>
+            <a-entity text="value: INSTRUCCIONES\nSelecciona la tecnica tocando la imagen (Movil),\nhaciendo clic (PC) o usando el laser (VR).; 
+                      color: #FFFFFF; align: center; width: 4; wrapCount: 40" position="0 -0.2 0.01"></a-entity>
+        </a-entity>
+
+        <a-entity id="ui" position="0 1.6 -2.5">
+            <a-entity id="menu">
+
+                <a-entity id="backButton" position="-3 0 0" mixin="frame-wide" class="raycastable menu-button">
+                    <a-entity 
+                        geometry="primitive: plane; width: 0.8; height: 0.4" 
+                        material="src: #backPoster; transparent: true; "
+                        position="0 0 0.01">
+                    </a-entity>
+
+                    <a-entity 
+                        position="0 -0.55 0.02" 
+                        text="value: Regresar; color: white; align: center; width: 2.5">
+                    </a-entity>
+                </a-entity>
+
+                <a-entity id="effleurageButton" position="-1.2 0 0" mixin="frame" class="raycastable menu-button">
+                    <a-entity material="src: #effleuragePoster;" mixin="poster"></a-entity>
+                    <a-entity position="0 -0.55 0.02" text="value: Effleurage; color: white; align: center; width: 2"></a-entity>
+                </a-entity>
+
+                <a-entity id="frictionButton" position="-0.4 0 0" mixin="frame" class="raycastable menu-button">
+                    <a-entity material="src: #frictionPoster;" mixin="poster"></a-entity>
+                    <a-entity position="0 -0.55 0.02" text="value: Friction; color: white; align: center; width: 2"></a-entity>
+                </a-entity>
+
+                <a-entity id="petrissageButton" position="0.4 0 0" mixin="frame" class="raycastable menu-button">
+                    <a-entity material="src: #petrissagePoster;" mixin="poster"></a-entity>
+                    <a-entity position="0 -0.55 0.02" text="value: Petrissage; color: white; align: center; width: 2"></a-entity>
+                </a-entity>
+
+                <a-entity id="tapotementButton" position="1.2 0 0" mixin="frame" class="raycastable menu-button">
+                    <a-entity material="src: #tapotementPoster;" mixin="poster"></a-entity>
+                    <a-entity position="0 -0.55 0.02" text="value: Pression; color: white; align: center; width: 2"></a-entity>
+                </a-entity>
+            </a-entity>
+        </a-entity>
+
+        <a-entity light="type: ambient; color: #CCC; intensity: 0.6"></a-entity>
+        <a-entity light="type: directional; color: #FFF; intensity: 0.8" position="1 1 1"></a-entity>
+
+        <a-circle position="0 0.01 0" rotation="-90 0 0" radius="2"
+            material="color: #222; metalness: 0.5; roughness: 0.5"></a-circle>
+
+    </a-scene>
+
+    <script src="menuMeta.js"></script>
+</body>
+</html>

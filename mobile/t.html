@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Masaje Pression - Touch Mode</title>
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+    <script src="t.js"></script>
+    <style>
+        canvas.a-canvas { touch-action: none; }
+
+        .btn-info{
+                    position: fixed !important;
+                    bottom: 20px;
+                    right: 150px; /* Se posiciona justo a la izquierda del botón AR */
+                    z-index: 99999 !important;
+                    height: 34px;
+                    padding: 0 12px;
+                    background: rgba(0, 0, 0, 0.35);
+                    color: #FFFFFF;
+                    border: 2px solid #FFFFFF;
+                    border-radius: 8px;
+                    font-family: sans-serif, sans-serif-condensed;
+                    font-size: 13px;
+                    font-weight: bold;
+                    letter-spacing: 1px;
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    box-sizing: border-box;
+                    outline: none;
+                    -webkit-tap-highlight-color: transparent;
+                    transition: background-color 0.2s ease;
+                }
+
+                .btn-info:active {
+                    background-color: rgba(255, 255, 255, 0.3);
+                }
+
+                /* Modal / Ventana flotante de Teoría */
+                .modal-overlay {
+                    position: fixed !important;
+                    top: 0;
+                    left: 0;
+                    width: 100vw;
+                    height: 100vh;
+                    background-color: rgba(0, 0, 0, 0.8);
+                    z-index: 100000 !important;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    opacity: 0;
+                    pointer-events: none;
+                    transition: opacity 0.3s ease;
+                }
+
+                .modal-overlay.active {
+                    opacity: 1;
+                    pointer-events: auto;
+                }
+
+                .modal-content {
+                    background-color: #1a1a1a;
+                    color: #ffffff;
+                    width: 85%;
+                    max-width: 400px;
+                    max-height: 80vh;
+                    border: 2px solid #5BEEF7;
+                    border-radius: 12px;
+                    padding: 20px;
+                    box-shadow: 0 5px 15px rgba(0,0,0,0.8);
+                    overflow-y: auto;
+                    font-family: sans-serif;
+                }
+
+                .modal-content h2 {
+                    color: #5BEEF7;
+                    margin-top: 0;
+                    font-size: 1.2rem;
+                    text-align: center;
+                    border-bottom: 1px solid #333;
+                    padding-bottom: 8px;
+                }
+
+                .modal-content p, .modal-content ul {
+                    font-size: 0.9rem;
+                    line-height: 1.4;
+                    color: #dddddd;
+                }
+
+                .close-btn {
+                    display: block;
+                    width: 100%;
+                    margin-top: 15px;
+                    padding: 10px 0;
+                    background-color: #5BEEF7;
+                    color: #1a1a1a;
+                    border: none;
+                    border-radius: 6px;
+                    font-weight: bold;
+                    font-size: 0.95rem;
+                    text-align: center;
+                    cursor: pointer;
+                }
+    </style>
+</head>
+
+<body>
+
+    <button id="btn-teoria" class="btn-info" aria-label="Información">INFO</button>
+
+        <div id="modal-teoria" class="modal-overlay">
+            <div class="modal-content">
+                <h2>Teoría Técnica Pression</h2>
+                <p>Consiste en la apliación de una presión intermitente de dirección perpendicular al segmento tratado.\nGeneralmente se realiza con las dos manos, de forma alterna y rítmica, donde una mano toma contacto momentáneo cuando la otra está en el aire.</p>
+                <p>El movimiento se ejecuta con la musculatura flexoextensora del codo del fisioterapeuta, manteniendo la muñeca relajada para que el movimiento sea fluido y no doloroso.</p>
+                <p>El ritmo y la intensidad se deben adaptar a la zona que se está percutiendo y, se deben evitar ciertas zonas como las de grandes plexos vasculares o las cercanas o órganos abdominales.</p>
+                <p>La percusión produce en la zona de contacto una hiperemia, así como una importante estimulación propioceptiva.</p>
+                <p><strong>Según la zona de la mano que realice el contacto, se pueden distinguir varias formas depercusión:</strong></p>
+                <ul>
+                    <li>Cachete cubital.</li>
+                    <li>Borde dorsal de manos y dedos.</li>
+                    <li>Puños.</li>
+                    <li>Clapping.</li>
+                    <li>Tecleos.</li>
+                    <li>Pellizqueos.</li>
+                </ul>
+                <p><strong>Fuentes bibliográficas utilizadas en esta sección:</strong></p>
+                <p>Fernández Álvarez, M. d. M., Martín Payo, R., y Cachero Rodríguez, J. (2024). Masoterapia: Manual de técnicas y maniobras. Universidad de Oviedo.</p>
+
+                <button id="btn-cerrar" class="close-btn">Entendido</button>
+            </div>
+        </div>
+
+    <a-scene>
+        <a-assets>
+            <a-asset-item id="asset-room" src="../../models/room09.glb"></a-asset-item>
+        </a-assets>
+
+        <a-entity gltf-model="#asset-room" position="0 -1.5 -2.5"></a-entity>
+        <a-sky color="#1C607A"></a-sky>
+
+        <a-entity id="rig" position="1.5 0 -0.2" rotation="0 90 0">
+            <a-entity camera look-controls="touchEnabled: false" position="0 1.4 0">
+                <a-entity cursor="rayOrigin: mouse" raycaster="objects: .raycastable"></a-entity>
+                <a-entity id="logic-handler" tapotement-touch-logic sequence-physics></a-entity>
+            </a-entity>
+        </a-entity>
+
+        <a-entity id="infoPanel2" position="0 -0.5 -1.4" rotation="-90 90 0">
+            <a-plane width="2" height="1" color="#1a1a1a" opacity="0.9"></a-plane>
+            <a-text value="Tecnica Pression" color="#5BEEF7" align="center" position="0 0.3 0.05"></a-text>
+            <a-text id="instrucciones-guia" 
+                    value="Toca repetidamente las zonas moradas" 
+                    color="#FFFFFF" align="center" width="2" position="0 -0.1 0.05">
+            </a-text>
+        </a-entity>
+
+        <a-box class="massage-zone" position="1.55 0.1 -0.50" rotation="20 80 0" scale="0.1 0.1 0.5" material="color: purple; opacity: 0.5"></a-box>
+        <a-box class="massage-zone" position="1.55 0.1 -0.40" rotation="20 100 0" scale="0.1 0.1 0.5" material="color: purple; opacity: 0.5"></a-box>
+
+        <a-plane id="botonSalir3D" position="-2.2 1.5 0" rotation="-10 90 0"
+                 width="0.5" height="0.2" color="#1a1a1a" class="raycastable" enlace-menu>
+            <a-text value="Salir" align="center" width="2" color="#5BEEF7"></a-text>
+        </a-plane>
+    </a-scene>
+</body>
+</html>

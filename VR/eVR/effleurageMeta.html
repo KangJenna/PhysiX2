@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Room VR Effleurage</title>
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-troika-text/dist/aframe-troika-text.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.2.0/dist/aframe-extras.min.js"></script>
+    <script src="effleurageMeta.js"></script>
+</head>
+<body>
+    
+
+    <a-scene webxr="optionalFeatures: hit-test; referenceSpaceType: local-floor">
+        <a-assets>
+            <a-asset-item id="asset-room" src="../../models/room09.glb"></a-asset-item> 
+        </a-assets>
+
+        <a-entity gltf-model="#asset-room" position="0 -0.7 -2.5" scale="1 1 1"></a-entity>
+        <a-sky color="#1C607A"></a-sky> 
+        <a-entity light="type: ambient; intensity: 0.7"></a-entity>
+        <a-entity light="type: directional; intensity: 1" position="-1 2 1"></a-entity>
+
+        <a-entity id="rig" position="1.8 0 -0.2"movement-controls="speed: 0.15; fly: false; constrainToNavMesh: false">
+            <a-entity camera look-controls position="0 1.6 0"></a-entity>
+
+                <a-entity id="leftHand" 
+                        hand-controls="hand: left; handModelStyle: highPoly; color: #ffcccc"
+                        laser-controls="hand: left"
+                        raycaster="objects: .massage-zone, .raycastable; far: 10; showLine: true; lineColor: #5BEEF7; lineOpacity: 0.6;interval: 50"
+                        vr-hand-massage="hand: left; minDist: 0.08; maxDist: 0.30; hapticIntensity: 0.4"
+                        recalibrar-altura>
+                </a-entity>
+
+                <a-entity id="rightHand" 
+                        hand-controls="hand: right; handModelStyle: highPoly; color: #ffcccc"
+                        laser-controls="hand: right"
+                        raycaster="objects: .massage-zone, .raycastable; far: 10; showLine: true; lineColor: #5BEEF7; lineOpacity: 0.6; interval: 50"
+                        vr-hand-massage="hand: right; minDist: 0.12; maxDist: 0.22; hapticIntensity: 0.7"
+                        recalibrar-altura>
+                </a-entity>
+        </a-entity>
+
+        <a-entity id="infoPanel3" width="2" height=".3" color="#1a1a1a" opacity="0.5" position="-2 0 -1.7" rotation="0 90 0">
+        <a-plane id="main-panel" width="2" height=".2" color="#1a1a1a" opacity="0.7">
+          <a-text id="count-panel"
+                  position="0 0 0.01" 
+                  align="center"
+                  width="3"
+                  value="Iniciando repeticiones">
+          </a-text>
+        </a-plane>
+      </a-entity>
+
+        <a-entity id="infoPanel2" position="1.8 1.6 -1.0">
+            <a-plane width="1.5" height="1" color="#1a1a1a" opacity="0.5" position="-2 0 0" rotation="0 90 0"></a-plane>    
+            <a-text value="Tecnica Effleurage" color="#5BEEF7" align="center" position="-2 0.4 0" width="2.5" rotation="0 90 0"></a-text>    
+            <a-text id="instrucciones-guia" 
+                    value="PASO 1:\nInicia en la zona LUMBAR\n(Color Magenta)" 
+                    color="white" 
+                    align="center" 
+                    position="-2 0 0" 
+                    rotation="0 90 0"
+                    width="1.2"
+                    wrap-count="22"> 
+            </a-text>
+        </a-entity>
+
+        <a-entity id="infoPanel3" teoria-carrusel >
+            <a-plane width="1.5" height="1" color="#1a1a1a" opacity="0.5" rotation="0 0 0" position="5 2 -4" scale="2 2 3"></a-plane>    
+            
+            <a-entity id="titulo"
+                    troika-text="value: Teoría Técnica Effleurage; color: cyan; align: center; maxWidth: 1.8; fontSize: 0.12;"
+                    position="5 2.8 -4"
+                    rotation="0 0 0">
+            </a-entity>
+            
+            <a-entity id="teoria"
+                    troika-text="color: white; align: justify; maxWidth: 1.7; fontSize: 0.08;"
+                    position="5 2.2 -4"
+                    rotation="0 0 0">
+            </a-entity>
+
+            <a-entity id="flecha-izq" 
+                    class="raycastable"
+                    geometry="primitive: triangle"
+                    material="color: #5BEEF7; side: double"
+                    position="4.4 1.2 -3.85"
+                    rotation="180 0 90"
+                    scale="0.1 0.1 0.1">
+            </a-entity>
+
+            <a-entity id="flecha-der" 
+                    class="raycastable"
+                    geometry="primitive: triangle"
+                    material="color: #5BEEF7; side: double"
+                    position="5.6 1.2 -3.85"
+                    rotation="180 0 -90"
+                    scale="0.1 0.1 0.1">
+            </a-entity>
+
+            <a-entity id="pagina-indicador"
+                    troika-text="value: 1 / 5; color: #5BEEF7; fontSize: 0.09; anchorX: center;"
+                    position="5 1.2 -4">
+            </a-entity>
+        </a-entity>
+
+        <a-box class="massage-zone" data-step="1" position="1.69 0.74 -0.46" rotation="0 0 0" scale="0.2 0.1 0.2" material="color: magenta; opacity: 0.4"></a-box>
+        <a-box class="massage-zone" data-step="2" position="1.425 0.8 -0.5" rotation="0 0 -20" scale="0.35 0.1 0.3" material="color: orange; opacity: 0.4"></a-box>
+        <a-box class="massage-zone" data-step="3" position="1.22 0.9 -0.45" rotation="0 0 -50" scale="0.1 0.1 0.5" material="color: blue; opacity: 0.4"></a-box>
+        <a-box class="massage-zone" data-step="4" position="1.695 0.87 -0.153" rotation="0 -7 -7" scale="0.7 0.1 0.1" material="color: cyan; opacity: 0.4"></a-box>
+        <a-box class="massage-zone" data-step="4-2" position="1.65 0.87 -0.758" rotation="0 7 -7" scale="0.7 0.1 0.1" material="color: cyan; opacity: 0.4"></a-box>
+
+        <a-plane id="botonSalir3D" 
+                position="-2.2 1.5 0" rotation="0 90 0"
+                width="0.4" height="0.18" 
+                color="#1a1a1a" 
+                class="raycastable"
+                enlace-menu>
+            <a-text value="Salir" align="center" width="1.8" color="#5BEEF7" position="0 0 0.01"></a-text>
+        </a-plane>
+
+    </a-scene>
+</body>
+</html>
