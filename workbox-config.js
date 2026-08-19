@@ -10,5 +10,6 @@ module.exports = {
   ],
   swDest: 'sw.js',
   clientsClaim: true,
-  skipWaiting: true
+  skipWaiting: true,
+  maximumFileSizeToCacheInBytes: 50 * 1024 * 1024
 };
