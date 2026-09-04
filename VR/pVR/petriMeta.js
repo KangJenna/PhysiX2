@@ -112,12 +112,21 @@ AFRAME.registerSystem('petri-massage', {
       }
     }
   },
- 
+
   pulseHaptics: function () {
     ['left', 'right'].forEach((id) => {
       var h = this.hands[id];
       if (h && h.pulse) h.pulse();
     });
+  },
+
+  resetSequence: function () {
+    this.repCount = 0;
+    this.phase = 'start';
+    this.activeHand = null;
+    this.startY = { left: null, right: null };
+
+    this.updatePanel('Coloca ambas manos en la zona violeta para iniciar (0/' + this.targetReps + ')');
   }
 });
 
@@ -312,3 +321,11 @@ AFRAME.registerComponent('enlace-menu', {
             }
         });
 
+AFRAME.registerComponent('reiniciar-masaje', {
+    init: function () {
+        this.el.addEventListener('click', () => {
+            const sys = this.el.sceneEl.systems['petri-massage'];
+            if (sys) sys.resetSequence();
+        });
+    }
+});

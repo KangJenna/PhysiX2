@@ -76,6 +76,15 @@ AFRAME.registerComponent('sequence-physics', {
             this.texto.setAttribute('value', `TAPOTEMENT\nToques: ${this.reps} / ${this.maxReps}`);
             this.texto.setAttribute('color', "white");
         }
+    },
+
+    resetSequence: function() {
+        this.reps = 0;
+        this.canHit = true;
+
+        document.querySelectorAll('.massage-zone').forEach(z => z.setAttribute('color', 'purple'));
+
+        this.updateUI();
     }
 });
 
@@ -105,6 +114,18 @@ AFRAME.registerComponent('enlace-menu', {
     init: function () {
         this.el.addEventListener('click', function () {
             window.location.href = "menuMobile.html";
+        });
+    }
+});
+
+
+AFRAME.registerComponent('reiniciar-masaje', {
+    init: function () {
+        this.el.addEventListener('click', () => {
+            const entidad = document.querySelector('[sequence-physics]'); // ajusta el selector si aplica
+            if (!entidad || !entidad.components['sequence-physics']) return;
+
+            entidad.components['sequence-physics'].resetSequence();
         });
     }
 });

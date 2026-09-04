@@ -135,6 +135,18 @@ AFRAME.registerComponent('sequence-physics', {
             this.guiaTexto.setAttribute('value', msg);
             this.guiaTexto.setAttribute('color', col);
         }
+    },
+
+    resetSequence: function() {
+        this.startedAtBottom = false;
+        this.reps = 0;
+        this.canCount = true;
+
+        if (this.handSphere) {
+            this.handSphere.setAttribute('material', 'color: red');
+        }
+
+        this.updateUI(`Repetición: 0 / ${this.maxReps}`, "white");
     }
 });
 
@@ -180,6 +192,17 @@ AFRAME.registerComponent('enlace-menu', {
     init: function() {
         this.el.addEventListener('click', function() {
             window.location.href = "../menuPC.html";
+        });
+    }
+});
+
+AFRAME.registerComponent('reiniciar-masaje', {
+    init: function () {
+        this.el.addEventListener('click', () => {
+            const brazoEl = document.querySelector('#brazo-virtual'); 
+            if (!brazoEl || !brazoEl.components['sequence-physics']) return;
+
+            brazoEl.components['sequence-physics'].resetSequence();
         });
     }
 });

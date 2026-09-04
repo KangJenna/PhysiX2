@@ -70,6 +70,24 @@ AFRAME.registerSystem('tapo-massage', {
     } else {
       this.updatePanel('Golpeteo ' + this.repCount + '/' + this.targetReps + ' registrado. Continúa');
     }
+  },
+  
+  resetSequence: function () {
+    this.repCount = 0;
+    this.done = false;
+    this.lastBothFists = false;
+
+    // Resetear el estado interno de cada mano (tapArmed/inZone),
+    // para que ninguna quede bloqueada por haber reiniciado a mitad de un golpe
+    ['left', 'right'].forEach((id) => {
+      var hand = this.hands[id];
+      if (hand) {
+        hand.inZone = false;
+        hand.tapArmed = true;
+      }
+    });
+
+    this.updatePanel('Cierra el puño con ambas manos (gatillo + grip + pulgar en el centro del stick) y golpea la zona indicada (0/' + this.targetReps + ')');
   }
 });
 
@@ -305,3 +323,11 @@ AFRAME.registerComponent('recalibrar-altura', {
 }); 
 
 
+AFRAME.registerComponent('reiniciar-masaje', {
+    init: function () {
+        this.el.addEventListener('click', () => {
+            const sys = this.el.sceneEl.systems['tapo-massage'];
+            if (sys) sys.resetSequence();
+        });
+    }
+});

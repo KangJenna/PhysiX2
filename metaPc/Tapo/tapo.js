@@ -91,6 +91,21 @@ AFRAME.registerComponent('sequence-physics', {
                 this.guiaTexto.setAttribute('color', "white");
             }
         }
+    },
+    
+    resetSequence: function() {
+        this.reps = 0;
+        this.canCount = true;
+
+        const izqSphere = document.querySelector('#brazo-izquierdo a-sphere');
+        const derSphere = document.querySelector('#brazo-derecho a-sphere');
+        if (izqSphere) izqSphere.setAttribute('color', 'blue');
+        if (derSphere) derSphere.setAttribute('color', 'red');
+
+        const esfera = this.el.querySelector('a-sphere');
+        if (esfera) esfera.setAttribute('scale', '1 1 1');
+
+        this.updateUI();
     }
 });
 
@@ -140,3 +155,15 @@ AFRAME.registerComponent('teoria-carrusel', {
             })
         }
     });
+
+AFRAME.registerComponent('reiniciar-masaje', {
+    init: function () {
+        this.el.addEventListener('click', () => {
+            // Ajusta el selector si sequence-physics está en otra entidad de este HTML
+            const brazoEl = document.querySelector('[sequence-physics]');
+            if (!brazoEl || !brazoEl.components['sequence-physics']) return;
+
+            brazoEl.components['sequence-physics'].resetSequence();
+        });
+    }
+});

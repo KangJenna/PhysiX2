@@ -118,6 +118,15 @@ AFRAME.registerSystem('friction-massage', {
       var h = this.hands[id];
       if (h && h.pulse) h.pulse();
     });
+  },
+
+  resetSequence: function () {
+    this.repCount = 0;
+    this.phase = 'start';
+    this.activeHand = null;
+    this.startY = { left: null, right: null };
+
+    this.updatePanel('Coloca ambas manos en la zona naranja para iniciar (0/' + this.targetReps + ')');
   }
 });
 
@@ -275,3 +284,12 @@ AFRAME.registerComponent('enlace-menu', {
                 });
             }
         });
+
+AFRAME.registerComponent('reiniciar-masaje', {
+    init: function () {
+        this.el.addEventListener('click', () => {
+            const sys = this.el.sceneEl.systems['friction-massage'];
+            if (sys) sys.resetSequence();
+        });
+    }
+});

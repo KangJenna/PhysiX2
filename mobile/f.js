@@ -89,6 +89,14 @@ AFRAME.registerComponent('sequence-physics', {
             this.textoConteo.setAttribute('color', col);
         }
         
+    },
+    
+    resetSequence: function() {
+        this.reps = 0;
+        this.active = false;
+        this.isFinished = false; // Clave: sin esto, friction-event se seguiría ignorando
+
+        this.updateUI(`Repetición: 0 / ${this.maxReps}`, "white");
     }
 });
 
@@ -119,6 +127,17 @@ AFRAME.registerComponent('enlace-menu', {
     init: function() {
         this.el.addEventListener('click', function() {
             window.location.href = "menuMobile.html";
+        });
+    }
+});
+
+AFRAME.registerComponent('reiniciar-masaje', {
+    init: function () {
+        this.el.addEventListener('click', () => {
+            const entidad = document.querySelector('[sequence-physics]'); // ajusta el selector si aplica
+            if (!entidad || !entidad.components['sequence-physics']) return;
+
+            entidad.components['sequence-physics'].resetSequence();
         });
     }
 });
