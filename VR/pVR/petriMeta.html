@@ -22,20 +22,24 @@
       <a-entity id="rig" position="1.8 0 -0.2" movement-controls="speed: 0.15; fly: false; constrainToNavMesh: false">
         <a-entity camera look-controls position="0 1.6 0"></a-entity>
           <a-entity id="leftHand" 
-                          hand-controls="hand: left; handModelStyle: highPoly; color: #ffcccc"
-                          laser-controls="hand: left"
-                          raycaster="objects: .massage-zone, .raycastable; far: 10; showLine: true; lineColor: #5BEEF7; lineOpacity: 0.6;interval: 50"
-                          vr-hand-massage="hand: left; minDist: 0.08; maxDist: 0.30; hapticIntensity: 0.4"
-                          recalibrar-altura>
+              hand-controls="hand: left; handModelStyle: highPoly; color: #ffcccc"
+              vr-hand-massage="hand: left; minDist: 0.08; maxDist: 0.30; hapticIntensity: 0.4"
+              recalibrar-altura>
+            <a-entity laser-controls="hand: left"
+                raycaster="objects: .massage-zone, .raycastable; far: 10; showLine: true; lineColor: #5BEEF7; lineOpacity: 0.6; interval: 50">
+            </a-entity>
           </a-entity>
-            
+
           <a-entity id="rightHand" 
                         hand-controls="hand: right; handModelStyle: highPoly; color: #ffcccc"
                         laser-controls="hand: right"
-                        raycaster="objects: .massage-zone, .raycastable; far: 10; showLine: true; lineColor: #5BEEF7; lineOpacity: 0.6; interval: 50"
                         vr-hand-massage="hand: right; minDist: 0.12; maxDist: 0.22; hapticIntensity: 0.7"
                         recalibrar-altura>
+            <a-entity laser-controls="hand: right"
+                raycaster="objects: .massage-zone, .raycastable; far: 10; showLine: true; lineColor: #5BEEF7; lineOpacity: 0.6; interval: 50">
+            </a-entity>
           </a-entity>
+
       </a-entity>
 
                 
