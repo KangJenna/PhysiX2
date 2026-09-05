@@ -1,7 +1,7 @@
 {
-    "name": "PhisiXtheraphy",
-    "short_name": "PhisiXy",
-    "description": "PhisiXtheraphy para estudiantes",
+    "name": "RILAK",
+    "short_name": "RILAK",
+    "description": "RILAK: El conocimiento que mueve tu formación",
     "start_url": "/index.html",
     "display": "standalone",
     "background_color": "#20232E",
